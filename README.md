@@ -44,4 +44,7 @@ The longer system prompts can consume space and use up the token limit. Why Long
 Best Practices.
 Concise prompts, essential information only, and iterative enhancement.
 
+## License
 
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
+Canonical URL  https://creativecommons.org/licenses/by-nc-sa/4.0/
