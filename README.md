@@ -34,3 +34,14 @@ We must guide the LLM with effective instructions on:
 - How to summarize or compare company reviews.
 - How to highlight patterns like common complaints, praise, or trends across locations or roles.
 
+## Challanges 
+
+The longer system prompts can consume space and use up the token limit. Why Long Prompts Consume Token Space.
+1. Input Limitations:
+  • The model has a fixed token limit (e.g., 4096 tokens for some models). This limit includes both the input (your prompt) and the output (the generated text). If the input is long, it leaves less room for the output.
+2. Cost of Additional Tokens:
+  • Every additional token in your system prompt reduces the number of tokens available for the output. This means that if your prompt is long, the model generates shorter responses because it has to stay within the maximum token limit.
+Best Practices.
+Concise prompts, essential information only, and iterative enhancement.
+
+
