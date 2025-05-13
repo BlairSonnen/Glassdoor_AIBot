@@ -1,8 +1,16 @@
-# ai_recruiter_with_rag.py
+# ai_recruiter_with_rag.py (patched for Gradio file compatibility with full fallback support)
 
 import subprocess
 import sys
 import importlib.util
+import os
+
+# Auto-install APT dependencies if in Colab
+if os.path.exists("/content"):
+    try:
+        subprocess.check_call(["apt-get", "install", "-y", "libmagic1"])
+    except Exception as e:
+        print(f"⚠️ Failed to install apt dependency: {e}")
 
 # Auto-install and upgrade missing packages
 required = {
@@ -17,7 +25,8 @@ required = {
     "gradio": "gradio",
     "bitsandbytes": "git+https://github.com/TimDettmers/bitsandbytes.git",
     "accelerate": "accelerate --upgrade",
-    "chromadb": "chromadb"
+    "chromadb": "chromadb",
+    "magic": "python-magic"
 }
 
 def install_missing(pkg_map):
@@ -28,14 +37,15 @@ def install_missing(pkg_map):
 
 install_missing(required)
 
-import os
 import io
+import time
 import torch
 import pandas as pd
 import mammoth
 import docx
 import fitz
 import xlrd
+import magic
 import numpy as np
 from io import StringIO
 from sentence_transformers import SentenceTransformer
@@ -50,12 +60,10 @@ try:
 except ImportError:
     pass
 
-# Connect to ChromaDB in Google Drive
-CHROMA_PATH = "/content/drive/MyDrive/AI Chatbot Data/Glassdoor Chroma Store"
+CHROMA_PATH = "/content/drive/MyDrive/Glassdoor Chroma Store"
 client = PersistentClient(path=CHROMA_PATH)
 collection = client.get_or_create_collection("csv_documents")
 
-# Load model with fallback if bitsandbytes fails
 model_path = "mistralai/Mistral-7B-Instruct-v0.2"
 try:
     bnb_config = BitsAndBytesConfig(
@@ -80,41 +88,54 @@ except Exception as e:
         trust_remote_code=True
     )
 
-# Tokenizer and embedder
 tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token
 embed_model = SentenceTransformer("all-MiniLM-L6-v2")
-
-# Document loader
 
 def extract_text_from_file(file):
     if file is None:
         return ""
-    name = file.name
-    ext = name.lower().split(".")[-1]
-    content = ""
-    bytes_data = file.read()
 
-    if ext == "txt":
-        content = bytes_data.decode("utf-8", errors="ignore")
-    elif ext == "pdf":
-        with fitz.open(stream=bytes_data, filetype="pdf") as doc:
-            content = "\n".join(page.get_text() for page in doc)
-    elif ext == "docx":
-        doc = docx.Document(io.BytesIO(bytes_data))
-        content = "\n".join([p.text for p in doc.paragraphs])
-    elif ext == "csv":
-        content = pd.read_csv(StringIO(bytes_data.decode("utf-8", errors="ignore"))).to_string()
-    elif ext in ["xlsx", "xls"]:
-        content = pd.read_excel(io.BytesIO(bytes_data)).to_string()
-    elif ext == "doc":
-        result = mammoth.extract_raw_text(io.BytesIO(bytes_data))
-        content = result.value
+    try:
+        if hasattr(file, "read"):
+            bytes_data = file.read()
+        elif hasattr(file, "value") and os.path.exists(file.value):
+            with open(file.value, "rb") as f:
+                bytes_data = f.read()
+        elif hasattr(file, "name") and os.path.exists(file.name):
+            with open(file.name, "rb") as f:
+                bytes_data = f.read()
+        else:
+            raise ValueError("Unsupported file object or missing file path.")
+    except Exception as e:
+        print(f"❌ Failed to read uploaded file: {e}")
+        return ""
 
-    return content[:3000] if content else ""
+    mime_type = magic.from_buffer(bytes_data, mime=True)
+    stream = io.BytesIO(bytes_data)
 
-# QA logic with RAG
+    try:
+        if mime_type == "text/plain":
+            return bytes_data.decode("utf-8", errors="ignore")[:3000]
+        elif mime_type == "application/pdf":
+            with fitz.open(stream=stream, filetype="pdf") as doc:
+                return "\n".join(page.get_text() for page in doc)[:3000]
+        elif mime_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+            return "\n".join(p.text for p in docx.Document(stream).paragraphs)[:3000]
+        elif mime_type == "application/msword":
+            return mammoth.extract_raw_text(stream).value[:3000]
+        elif mime_type == "text/csv":
+            return pd.read_csv(StringIO(bytes_data.decode("utf-8", errors="ignore"))).to_string()[:3000]
+        elif "excel" in mime_type:
+            return pd.read_excel(stream).to_string()[:3000]
+    except Exception as e:
+        print(f"❌ Extraction error: {e}")
+        return ""
 
-def qa_with_llm(file, user_option, question):
+    return ""
+
+def qa_with_llm(file, user_option, base_prompt, question):
     if file:
         context = extract_text_from_file(file)
     else:
@@ -127,23 +148,27 @@ def qa_with_llm(file, user_option, question):
             return "⚠️ Please upload a document or enter a question."
         question = f"Please {user_option.lower()} the following content:\n\n{context}"
 
-    prompt = f"""You are a helpful AI recruiter assistant. Your task is to answer questions and give recommendations based on job data and candidate insights from Glassdoor.
-{context[:1000]}
-Question: {question}
-Answer:"""
+    prompt = f"{base_prompt}Question: {question}\n\nContext:\n{context[:1000]}\n\nAnswer:"
 
-    inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=4096)
-    inputs = {k: v.to(model.device) for k, v in inputs.items()}
-    output = model.generate(**inputs, max_new_tokens=512, temperature=0.7, do_sample=True)
+    tokenized = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=4096, padding=True)
+    inputs = {k: v.to(model.device) for k, v in tokenized.items()}
+    print(f"🧠 Prompt token count: {inputs['input_ids'].shape[1]}")
+
+    try:
+        start = time.time()
+        output = model.generate(**inputs, max_new_tokens=512, temperature=0.7, do_sample=True)
+        end = time.time()
+        print(f"⏱️ Response time: {end - start:.2f} sec")
+    except Exception as e:
+        print(f"❌ Model generation failed: {e}")
+        return "⚠️ An error occurred while generating the answer. Please try with a different file or question."
+
     answer = tokenizer.decode(output[0], skip_special_tokens=True)
     final_answer = answer.split("Answer:")[-1].strip()
 
     return final_answer
 
-# Gradio UI
-
-def run_gradio():
-    gr.Interface(
+app = gr.Interface(
         fn=qa_with_llm,
         inputs=[
             gr.File(label="Upload Document"),
@@ -152,11 +177,12 @@ def run_gradio():
                 "Check for grammar/spelling/formatting",
                 "Analyze the data"
             ], label="Task"),
+            gr.Textbox(label="Base Prompt", value="You are an unbiased recruiting analyst. Use the data below to answer the question clearly and professionally."),
             gr.Textbox(label="Ask a question", placeholder="What are the top-rated companies for software engineers?")
         ],
         outputs="text",
         title="AI Recruiter Assistant",
         description="Upload a job-related document and/or ask the AI for recommendations or summaries."
-    ).launch(share=True, debug=True)
+    )
 
-run_gradio()
+app.launch(share=True, debug=True)
