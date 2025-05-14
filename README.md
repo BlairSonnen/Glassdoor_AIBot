@@ -108,88 +108,125 @@ With Hugging Face Gated Model Access & Google Drive Integration
 
 ### Step 1: Setting Up Google Colab
 1. Open Google Colab:
-  • Go to Google Colab. [https://colab.research.google.com](https://colab.research.google.com)
-2. Sign In:
-  • Ensure that you are signed in with your Google account.
+   
+   • https://colab.research.google.com
+  
+2. Ensure that you are signed in with your Google account.
 
 ### Step 2: Install Dependencies
 1. Install Hugging Face Transformers Library:
+   
   • In a new cell, install the Hugging Face transformers library:
-!pip install huggingface_hub
-!huggingface-cli login
+  
+	!pip install huggingface_hub
+
+	!huggingface-cli login
 
 ### Step 3: Accessing Hugging Face Gated Models
-1. Authenticate with Hugging Face:
+1. Open Hugging Face:
+   
+   • https://huggingface.co
+   
+2. Authenticate with Hugging Face:
+
   • If you need access to gated models, you must authenticate using your Hugging Face account token. First, create an account on Hugging Face if you don’t have one. 
 
-### Step 4: Hugging Face account settings:
+### Step 4: Hugging Face account settings
 1. Gated Repository settings:
-   • On the top search bar, type the name of the module: mistralai/Mistral-7B-Instruct-v0.2
- Install the model and then go to your account settings.
+   
+• On the top search bar, type the name of the module: mistralai/Mistral-7B-Instruct-v0.2
+   
+• Install the model and then go to your account settings.
  Gated Repositories on the left side will show you the  installed module with the Accepted request status.
 			
-### Step 5: Create Hugging Face token:
+### Step 5: Create Hugging Face token
 1. Access Token:
+   
   • On the Hugging Face account settings page, go to the Access Token option. Click on Create new Token. 
-Type a name for the new token and don’t forget to select the User permissions. 
+Type a name for the new token, and don’t forget to select the User permissions. 
 
-### Step 6: Repository permissions:
-• For the newly created token, select permissions: 
-• Read access to the  contents of all repos under your namespace 
+### Step 6: Repository permissions
+1. For the newly created token, select permissions:
+   
+• Read access to the  contents of all repos under your namespace.
+
 • Read access to the contents of all public gated repos you can access. 
-Scroll down to the end of the page and save the new token with the button Create token. Now you can use the token on Google Colab.
-• Copy the token
+Scroll down to the end of the page and click the Create token button to save the new token. You can then use it on Google Colab.
+
+• Copy the token.
 
 ### Step 7: Hugging Face CLI login
-1. To log in with Hugging Face:
-  • Then you ran the command !huggingface-cli login in Step 2, the Google Colab asked you to Enter your token (input will not be visible): 
+1. To log in with Hugging Face token:
+   
+ • Then run the command !huggingface-cli login (in Step 2), the Google Colab asks you to Enter your token (input will not be visible):
+ 
  • Paste the copied Hugging Face token and click the Enter button.
+ 
  • Add token as git credential? (Y/n): Type Y.
 
 ### Step 8: Mount Google Drive:
 1. Write the Code to Mount Google Drive:
+   
   • In the new code cell, you need to input the code to mount Google Drive. You can use the following code:
-from google.colab import drive
-drive.mount('/content/drive')
+  
+	from google.colab import drive
+
+	drive.mount('/content/drive')
 
 2. Run the Code Cell:
+   
   • Click the "Run" button (play icon) on the left side of the cell, or press Shift + Enter to execute the code.
 
 3. Authorize Access:
+   
   • After running the cell, you will see a link in the output that says something like "Go to this URL in a browser:". Click on the link.
-  • This action will redirect you to the Google account authentication page. Choose your Google account and allow access. 
+  
+  • This action will redirect you to the Google account authentication page. Choose your Google account and allow access.
+  
   • You'll then receive a verification code.
 
 4. Paste the Authorization Code:
+   
   • Copy the verification code and go back to your Colab notebook.
+
   • Paste the code into the prompt that appears in the output of the code cell and hit Enter.
 
 5. Access Files:
+   
   • Your Google Drive is now mounted and can be accessed at /content/drive. You can use standard file operations (like reading, writing, and navigating folders) just as you would with local files.
 
-Example of Accessing Files
+Example of Accessing Files:
+
 To check if the drive has been mounted successfully and to list the files in your Google Drive, you can run the following command in a new code cell:
-!ls /content/drive/MyDrive/
+
+	!ls /content/drive/MyDrive/
+
 This will display the contents of your "My Drive" folder in Google Drive.
 
 ### Step 9: Set File Paths and Load ChromaDB
 Define your Chroma path:
+
 CHROMA_PATH = "/content/drive/MyDrive/AI Chatbot Data/Glassdoor Chroma Store/chroma.sqlite3"
 
 Use PersistentClient from ChromaDB to connect and load your collection.
 
 ### Step 10: Run the Model and App Code
 1. Locate the cell beginning with # ai_recruiter_with_rag.py
+   
 2. Run your AI assistant logic (LLM loading, retrieval, inference, etc.)
+   
 3. Ensure paths and model identifiers are correctly configured.
 
 ### Step 11: Disconnect Google Drive
 1. Unmount the Drive (optional):
+   
   • If you wish to unmount your Google Drive after your session:
-python
-drive.flush_and_unmount()
+
+	drive.flush_and_unmount()
 
 
+## AI chatbot - Glassdoor Job Reviews dataset 
+Insert screenshot
 
 ## License
 
