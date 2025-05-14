@@ -44,6 +44,64 @@ The longer system prompts can consume space and use up the token limit. Why Long
 Best Practices.
 Concise prompts, essential information only, and iterative enhancement.
 
+## Step-by-Step Guide: Generating Cleaned Glassdoor Dataset  
+Using Glassdoor Job Reviews 2 dataset from Kaggle with `data_cleanup.ipynb`
+
+### Step 1: Install Dependencies
+
+In the first section of the notebook, there is a cell to install the `kagglehub` Python library. This line is commented out to allow rerunning the notebook without unnecessary installation. If the library is not installed, simply uncomment the line, run the cell, and then comment it out again.
+
+```python
+# Install kagglehub if you need it, just comment out the next line
+# !pip install kagglehub
+```
+
+---
+
+### Step 2: Download the Data and Store it in a DataFrame
+
+The `glassdoor-job-reviews-2` dataset is approximately 3.56 GB with over **9.9 million reviews**. The download process may take time initially, but the file will be cached locally after the first download. The dataset is then loaded into a Pandas DataFrame to facilitate data cleaning.
+
+---
+
+### Step 3: Extract the Company/Firm Names
+
+The dataset includes a `firm_link` column containing a URL-safe string for each company's Glassdoor page. Although the dataset lacks a direct `company name` column, a helper function extracts the name from the `firm_link` and stores it in a new column, `firm_name`, resulting in **34,369 unique company names**.
+
+---
+
+### Step 4: Data Cleanup
+
+Cleaning involves removing irrelevant or mostly-null columns such as `advice` and `index`. Rows containing any null entries are also dropped. Even after cleanup, millions of rows remain for analysis.
+
+---
+
+### Step 5: Bias Control
+
+Initial chatbot use revealed a bias toward companies with a higher number of reviews. To mitigate this:
+- Companies must have at least 1,000 reviews to be included.
+- From each qualifying company, a random sample of 1,000 reviews is selected.
+
+The result is saved to `Resources/cleaned_glassdoor_reviews_max1000.csv`, containing:
+- **581,000 reviews**  
+- **581 unique companies**
+
+---
+
+### Step 6: Model Consumption Management
+
+Because consuming the cleaned dataset was time-intensive, two strategies were used to improve efficiency:
+
+1. **Dataset Chunking**  
+   The full dataset was split into smaller files, each with ≤ 25,000 rows. These are saved to `Resources/chunked/`.
+
+2. **Reduced Sample File**  
+   A smaller dataset was created by randomly sampling 500,000 rows from the full dataset. Companies with at least 500 reviews were kept, and a cap of 500 reviews per company was applied for bias control.  
+   Final dataset saved as:  
+   `Resources/cleaned_glassdoor_reviews_reduced_max500.csv`  
+   Contains:
+   - **131,000 reviews**  
+   - **262 unique companies**
 
 ## Step-by-Step Guide: Running Your AI Code in Google Colab  
 With Hugging Face Gated Model Access & Google Drive Integration
