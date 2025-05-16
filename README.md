@@ -109,91 +109,96 @@ With Hugging Face Gated Model Access & Google Drive Integration
 ### Step 1: Setting Up Google Colab
 1. Open Google Colab:
    
-   • https://colab.research.google.com
+    - https://colab.research.google.com
   
 2. Ensure that you are signed in with your Google account.
 
-### Step 2: Install Dependencies
+### Step 2: Open Project Notebook
+
+1. Open your project notebook `Glassdoor_Ai_chatbot V1.1.ipynb` from:
+   - The **Recent** tab if you’ve used it before
+   - The **Google Drive** tab to browse your saved notebooks
+   - Or upload it directly from your local computer
+
+### Step 3: Install Dependencies
 1. Install Hugging Face Transformers Library:
    
-  • In a new cell, install the Hugging Face transformers library:
-  
+     - In a new cell, install the Hugging Face transformers library:
+  ```
 	!pip install huggingface_hub
 
 	!huggingface-cli login
-
-### Step 3: Accessing Hugging Face Gated Models
+  ```
+### Step 4: Accessing Hugging Face Gated Models
 1. Open Hugging Face:
    
-   • https://huggingface.co
+    - https://huggingface.co
    
 2. Authenticate with Hugging Face:
 
-  • If you need access to gated models, you must authenticate using your Hugging Face account token. First, create an account on Hugging Face if you don’t have one. 
+    - If you need access to gated models, you must authenticate using your Hugging Face account token. First, create an account on Hugging Face if you don’t have one. 
 
-### Step 4: Hugging Face account settings
+### Step 5: Hugging Face account settings
 1. Gated Repository settings:
    
-• On the top search bar, type the name of the module: mistralai/Mistral-7B-Instruct-v0.2
+    - On the top search bar, type the name of the module: [mistralai/Mistral-7B-Instruct-v0.2](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2)
    
-• Install the model and then go to your account settings.
+    - Install the model and then go to your account settings.
  Gated Repositories on the left side will show you the  installed module with the Accepted request status.
 			
-### Step 5: Create Hugging Face token
+### Step 6: Create Hugging Face token
 1. Access Token:
    
-  • On the Hugging Face account settings page, go to the Access Token option. Click on Create new Token. 
-Type a name for the new token, and don’t forget to select the User permissions. 
+    - On the Hugging Face account settings page, go to the [Access Token](https://huggingface.co/settings/tokens) option. Click on Create new Token. 
 
-### Step 6: Repository permissions
-1. For the newly created token, select permissions:
-   
-• Read access to the  contents of all repos under your namespace.
+    - Type a name for the new token. 
 
-• Read access to the contents of all public gated repos you can access. 
-Scroll down to the end of the page and click the Create token button to save the new token. You can then use it on Google Colab.
+    - Under "Repositories", enable:
+      - Read access to contents of all repos under your personal namespace
+      - Read access to contents of all public gated repos you can access
 
-• Copy the token.
+    - Click **Create Token** and copy the token immediately  
+    > Note: You cannot view the token again after clicking "Done"
 
 ### Step 7: Hugging Face CLI login
 1. To log in with Hugging Face token:
    
- • Then run the command !huggingface-cli login (in Step 2), the Google Colab asks you to Enter your token (input will not be visible):
+    - Then run the command !huggingface-cli login (in Step 2), the Google Colab asks you to Enter your token (input will not be visible):
  
- • Paste the copied Hugging Face token and click the Enter button.
+    - Paste the copied Hugging Face token and click the Enter button.
  
- • Add token as git credential? (Y/n): Type Y.
+    - Add token as git credential? (Y/n): Type Y.
 
 ### Step 8: Mount Google Drive:
 1. Write the Code to Mount Google Drive:
    
-  • In the new code cell, you need to input the code to mount Google Drive. You can use the following code:
-  
+     - In the new code cell, you need to input the code to mount Google Drive. You can use the following code:
+  ```
 	from google.colab import drive
 
 	drive.mount('/content/drive')
-
+  ```
 2. Run the Code Cell:
    
-  • Click the "Run" button (play icon) on the left side of the cell, or press Shift + Enter to execute the code.
+     - Click the "Run" button (play icon) on the left side of the cell, or press Shift + Enter to execute the code.
 
 3. Authorize Access:
    
-  • After running the cell, you will see a link in the output that says something like "Go to this URL in a browser:". Click on the link.
+     - After running the cell, you will see a link in the output that says something like "Go to this URL in a browser:". Click on the link.
   
-  • This action will redirect you to the Google account authentication page. Choose your Google account and allow access.
+     - This action will redirect you to the Google account authentication page. Choose your Google account and allow access.
   
-  • You'll then receive a verification code.
+     - You'll then receive a verification code.
 
 4. Paste the Authorization Code:
    
-  • Copy the verification code and go back to your Colab notebook.
+     - Copy the verification code and go back to your Colab notebook.
 
-  • Paste the code into the prompt that appears in the output of the code cell and hit Enter.
+     - Paste the code into the prompt that appears in the output of the code cell and hit Enter.
 
 5. Access Files:
    
-  • Your Google Drive is now mounted and can be accessed at /content/drive. You can use standard file operations (like reading, writing, and navigating folders) just as you would with local files.
+     - Your Google Drive is now mounted and can be accessed at /content/drive. You can use standard file operations (like reading, writing, and navigating folders) just as you would with local files.
 
 Example of Accessing Files:
 
@@ -220,10 +225,10 @@ Use PersistentClient from ChromaDB to connect and load your collection.
 ### Step 11: Disconnect Google Drive
 1. Unmount the Drive (optional):
    
-  • If you wish to unmount your Google Drive after your session:
-
+     - If you wish to unmount your Google Drive after your session:
+  ```
 	drive.flush_and_unmount()
-
+  ```
 
 ## AI chatbot - Glassdoor Job Reviews dataset 
 Insert screenshot
