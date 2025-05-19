@@ -10,7 +10,6 @@ To create a helpful, job-related AI interface that:
 - Parses job review data from Glassdoor.
 - Offers recommendations on companies or roles.
 - Provides pros and cons based on real employee sentiment.
-- Can be filtered by attributes like **location** (e.g., Utah), **job role** (e.g., System Administrator), and more.
 
 ## System Design
 
@@ -38,14 +37,18 @@ We must guide the LLM with effective instructions on:
 
 The longer system prompts can consume space and use up the token limit. Why Long Prompts Consume Token Space.
 1. Input Limitations:
+   
   • The model has a fixed token limit (e.g., 4096 tokens for some models). This limit includes both the input (your prompt) and the output (the generated text). If the input is long, it leaves less room for the output.
+  
 2. Cost of Additional Tokens:
+   
   • Every additional token in your system prompt reduces the number of tokens available for the output. This means that if your prompt is long, the model generates shorter responses because it has to stay within the maximum token limit.
-Best Practices.
+  
+Best Practices:
 Concise prompts, essential information only, and iterative enhancement.
 
 ## Step-by-Step Guide: Generating Cleaned Glassdoor Dataset  
-Using Glassdoor Job Reviews 2 dataset from Kaggle with `data_cleanup.ipynb`
+Using the Glassdoor Job Reviews 2 dataset from Kaggle with `data_cleanup.ipynb`
 
 ### Step 1: Install Dependencies
 
@@ -116,7 +119,7 @@ With Hugging Face Gated Model Access & Google Drive Integration
 ### Step 2: Open Project Notebook
 
 1. Open your project notebook `Glassdoor_Ai_chatbot.ipynb` from:
-   - The **Recent** tab if you’ve used it before
+   - The **Recent** tab, if you’ve used it before
    - The **Google Drive** tab to browse your saved notebooks
    - Or upload it directly from your local computer
 
@@ -134,18 +137,17 @@ With Hugging Face Gated Model Access & Google Drive Integration
    
     - https://huggingface.co
    
-2. Authenticate with Hugging Face:
+2. Authenticate your Hugging Face account via email:
 
-    - If you need access to gated models, you must authenticate your Huggin Face account via email. First, create an account on Hugging Face if you don’t have one. 
+    - If you need access to gated models, you must authenticate your Hugging Face account via email. First, create an account on Hugging Face if you don’t have one. 
 
 ### Step 5: Hugging Face account settings
 1. Gated Repository settings:
    
     - On the top search bar, type the name of the module: [mistralai/Mistral-7B-Instruct-v0.2](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2)
    
-    - Accessing the model is as simple as agreeing to share your contact information. Click the “agree and access repository” button.
-  
-    - Go to your account settings and "Gated Repositories" on the left side will show you the installed module with the Accepted request status.
+    - Accessing the model is as simple as agreeing to share your contact information. Click the “Agree and Access Repository” button
+
 			
 ### Step 6: Create Hugging Face token
 1. Access Token:
@@ -158,8 +160,7 @@ With Hugging Face Gated Model Access & Google Drive Integration
       - Read access to contents of all repos under your personal namespace
       - Read access to contents of all public gated repos you can access
 
-    - Click **Create Token** and copy the token immediately  
-
+    - Click **Create Token** and copy the token 
 
 ### Step 7: Hugging Face CLI login
 1. To log in with Hugging Face token:
@@ -232,7 +233,9 @@ Use PersistentClient from ChromaDB to connect and load your collection.
   ```
 
 ## AI chatbot - Glassdoor Job Reviews dataset 
-Insert screenshot
+
+![image](https://github.com/user-attachments/assets/c7e2eb28-04ec-441c-8056-29bbc4c3335c)
+
 
 ## License
 
