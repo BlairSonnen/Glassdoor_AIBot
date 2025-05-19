@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project aims to develop an  AI chatbot that uses the **Glassdoor Job Reviews 2** dataset to provide insightful, data-driven responses to users exploring potential employers or job roles. The chatbot helps users understand company cultures, identify pros and cons of specific jobs or companies, and make informed career decisions.
+This project aims to develop an  AI chatbot that uses the [Glassdoor Job Reviews](https://www.kaggle.com/datasets/davidgauthier/glassdoor-job-reviews-2?resource=download) dataset to provide insightful, data-driven responses to users exploring potential employers or job roles. The chatbot helps users understand company cultures, identify pros and cons of specific jobs or companies, and make informed career decisions.
 
 ## Purpose
 
@@ -137,9 +137,9 @@ With Hugging Face Gated Model Access & Google Drive Integration
    
     - https://huggingface.co
    
-2. Authenticate your Huggin Face account via email:
+2. Authenticate your Hugging Face account via email:
 
-    - If you need access to gated models, you must authenticate using your Hugging Face account token. First, create an account on Hugging Face if you don’t have one. 
+    - If you need access to gated models, you must authenticate your Hugging Face account via email. First, create an account on Hugging Face if you don’t have one. 
 
 ### Step 5: Hugging Face account settings
 1. Gated Repository settings:
@@ -161,7 +161,7 @@ With Hugging Face Gated Model Access & Google Drive Integration
       - Read access to contents of all public gated repos you can access
 
     - Click **Create Token** and copy the token 
-       
+
 ### Step 7: Hugging Face CLI login
 1. To log in with Hugging Face token:
    
