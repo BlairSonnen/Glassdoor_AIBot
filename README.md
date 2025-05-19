@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project aims to develop an  AI chatbot that uses the **Glassdoor Job Reviews 2** dataset to provide insightful, data-driven responses to users exploring potential employers or job roles. The chatbot helps users understand company cultures, identify pros and cons of specific jobs or companies, and make informed career decisions.
+This project aims to develop an  AI chatbot that uses the [Glassdoor Job Reviews](https://www.kaggle.com/datasets/davidgauthier/glassdoor-job-reviews-2?resource=download) dataset to provide insightful, data-driven responses to users exploring potential employers or job roles. The chatbot helps users understand company cultures, identify pros and cons of specific jobs or companies, and make informed career decisions.
 
 ## Purpose
 
@@ -115,7 +115,7 @@ With Hugging Face Gated Model Access & Google Drive Integration
 
 ### Step 2: Open Project Notebook
 
-1. Open your project notebook `Glassdoor_Ai_chatbot V1.1.ipynb` from:
+1. Open your project notebook `Glassdoor_Ai_chatbot.ipynb` from:
    - The **Recent** tab if you’ve used it before
    - The **Google Drive** tab to browse your saved notebooks
    - Or upload it directly from your local computer
@@ -136,18 +136,14 @@ With Hugging Face Gated Model Access & Google Drive Integration
    
 2. Authenticate with Hugging Face:
 
-    - If you need access to gated models, you must authenticate using your Hugging Face account token. First, create an account on Hugging Face if you don’t have one. 
+    - If you need access to gated models, you must authenticate your Huggin Face account via email. First, create an account on Hugging Face if you don’t have one. 
 
 ### Step 5: Hugging Face account settings
 1. Gated Repository settings:
    
     - On the top search bar, type the name of the module: [mistralai/Mistral-7B-Instruct-v0.2](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2)
-      
-    - Install the model and then go to your account settings.
-      
    ![image](https://github.com/user-attachments/assets/6e697955-1dca-4cc8-a8ff-0ff4cc02fbe4)
    
- Gated Repositories on the left side will show you the  installed module with the Accepted request status.
 			
 ### Step 6: Create Hugging Face token
 1. Access Token:
@@ -161,7 +157,7 @@ With Hugging Face Gated Model Access & Google Drive Integration
       - Read access to contents of all public gated repos you can access
 
     - Click **Create Token** and copy the token immediately  
-    > Note: You cannot view the token again after clicking "Done"
+
 
 ### Step 7: Hugging Face CLI login
 1. To log in with Hugging Face token:
