@@ -148,8 +148,6 @@ With Hugging Face Gated Model Access & Google Drive Integration
    ![image](https://github.com/user-attachments/assets/6e697955-1dca-4cc8-a8ff-0ff4cc02fbe4)
    
     - Accessing the model is as simple as agreeing to share your contact information. Click the “Agree and Access Repository” button
-
-    - Go to your account settings and "Gated Repositories" on the left side will show you the installed module with the Accepted request status.
 			
 ### Step 6: Create Hugging Face token
 1. Access Token:
