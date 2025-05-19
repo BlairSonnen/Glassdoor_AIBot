@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project aims to develop an  AI chatbot that uses the **Glassdoor Job Reviews 2** dataset to provide insightful, data-driven responses to users exploring potential employers or job roles. The chatbot helps users understand company cultures, identify pros and cons of specific jobs or companies, and make informed career decisions.
+This project aims to develop an  AI chatbot that uses the **Glassdoor Job Reviews 2** [Glassdoor Job Reviews](https://www.kaggle.com/datasets/davidgauthier/glassdoor-job-reviews-2?resource=download) dataset to provide insightful, data-driven responses to users exploring potential employers or job roles. The chatbot helps users understand company cultures, identify pros and cons of specific jobs or companies, and make informed career decisions.
 
 ## Purpose
 
