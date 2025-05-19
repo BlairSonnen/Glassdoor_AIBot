@@ -145,9 +145,9 @@ With Hugging Face Gated Model Access & Google Drive Integration
 1. Gated Repository settings:
    
     - On the top search bar, type the name of the module: [mistralai/Mistral-7B-Instruct-v0.2](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2)
+   ![image](https://github.com/user-attachments/assets/6e697955-1dca-4cc8-a8ff-0ff4cc02fbe4)
    
     - Accessing the model is as simple as agreeing to share your contact information. Click the “Agree and Access Repository” button
-
 			
 ### Step 6: Create Hugging Face token
 1. Access Token:
