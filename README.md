@@ -237,6 +237,11 @@ Use PersistentClient from ChromaDB to connect and load your collection.
 ![image](https://github.com/user-attachments/assets/c7e2eb28-04ec-441c-8056-29bbc4c3335c)
 
 
+## Step-by-step link for video
+
+https://youtu.be/xy3eqDCaWCc
+
+
 ## License
 
 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
